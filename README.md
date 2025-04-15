@@ -27,27 +27,15 @@ proyecto_inversiones/
 
 
 ## Instrucciones para Ejecutar el Proyecto
-Clona este repositorio:
+Para ejecutar este proyecto, primero se debe clonar el repositorio con el comando git clone https://github.com/TU_USUARIO/TU_REPOSITORIO.git y luego entrar a la carpeta del proyecto con cd TU_REPOSITORIO. Una vez dentro, se recomienda crear un entorno virtual para aislar las dependencias utilizando python -m venv venv. Este entorno se activa con venv\Scripts\activate en Windows o source venv/bin/activate en Mac/Linux. Luego, se deben instalar las dependencias necesarias con pip install -r requirements.txt. Si no se cuenta con el archivo requirements.txt, se puede generar con pip freeze > requirements.txt después de instalar las bibliotecas usadas como pandas, dash, sqlalchemy y psycopg2.
 
-Crea un entorno virtual e instala las dependencias:
+El siguiente paso es configurar la base de datos. Para esto se debe tener instalado PostgreSQL y crear una nueva base de datos llamada, por ejemplo, aba_analytics. Esto puede hacerse desde pgAdmin o con el comando CREATE DATABASE aba_analytics; en consola. Luego, dentro del código Python, se debe establecer una conexión a esa base de datos utilizando SQLAlchemy, con una línea como engine = create_engine("postgresql://usuario:contraseña@localhost:5432/aba_analytics"), reemplazando usuario y contraseña por las credenciales locales.
 
-bash
-Copiar
-Editar
-python -m venv venv
-source venv/bin/activate  # en Linux o Mac
-venv\Scripts\activate     # en Windows
+Con la base de datos lista, se deben cargar los datos. Como los archivos .csv no están incluidos en este repositorio por políticas de confidencialidad, se deben ubicar manualmente en la carpeta adecuada y ejecutar el script load_data.py, el cual se encarga de leer los archivos y volcarlos en PostgreSQL. Este script puede construirse usando pandas.read_csv() para leer los datos y .to_sql() para cargarlos en las tablas respectivas.
 
-pip install -r requirements.txt
-Configura tu base de datos en el archivo db_config.py con tus credenciales de PostgreSQL.
+Una vez cargados los datos, se ejecuta el sistema analítico con python app.py, lo cual inicia un servidor local de Dash. Para visualizar el dashboard se debe abrir el navegador y dirigirse a http://127.0.0.1:8050/, donde se podrá interactuar con los filtros por mes, perfil de riesgo y tipo de banca, así como visualizar la evolución de los macroactivos a lo largo del tiempo. El sistema permite observar la distribución de inversiones por cliente, banca, perfil de riesgo y tipo de macroactivo (FICS, renta fija, renta variable, etc.).
 
-Ejecuta la aplicación:
-
-bash
-Copiar
-Editar
-python app.py
-Abre tu navegador en: http://127.0.0.1:8050/
+Este proyecto fue desarrollado usando Python 3.9, PostgreSQL 17, Dash y herramientas estándar de análisis de datos. Se recomienda el uso de entornos virtuales y evitar subir credenciales o datos sensibles al repositorio.
 
 ## Funcionalidades del Dashboard
 Filtro por banca, perfil de riesgo y mes.
